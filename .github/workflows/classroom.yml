@@ -2,10 +2,10 @@ name: GitHub Classroom Workflow
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 jobs:
   build:
     name: Autograding
@@ -16,7 +16,40 @@ jobs:
           fetch-depth: 0
 
       # TODO build, test and deploy project
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v2
+        with: 
+          dotnet-version: 8.0.x
+      
+      - name: Build
+        run: dotnet restore "Person/Person/Person.csproj"
 
+      - name: Publish
+        run: dotnet publish "Person/Person/Person.csproj" -c Release -o publish --no-restore
+      
+      - name: Test
+        run: dotnet test "Person/PersonTests/PersonTests.csproj" --no-restore
+
+      - name: Upload dotnet test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: dotnet-results
+          path: TestResults
+        # Use always() to always run this step to publish test results when there are test failures
+        if: ${{ always() }}
+      
+      - name: Deploy project
+        uses: akhileshns/heroku-deploy@v3.4.6
+        with:
+          heroku_api_key: ccf28ef5-f283-40a6-9ee9-8a2eb6fbacf4
+          heroku_app_name: people-lab1
+          heroku_email: 15platosha@gmail.com
+          usedocker: true
+
+      - name: Timeout
+        run: sleep 20s
+        shell: bash
+        
       - name: Run API Tests
         uses: matt-ball/newman-action@master
         with:
