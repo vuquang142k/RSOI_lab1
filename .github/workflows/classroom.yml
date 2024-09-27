@@ -28,7 +28,7 @@ jobs:
         run: dotnet publish "Person/Person/Person.csproj" -c Release -o publish --no-restore
       
       - name: Test
-        run: donet build "Person/PersonTests/PersonTests.csproj" && test "Person/PersonTests/PersonTests.csproj" --no-restore
+        run: donet test "Person/Person.sln"
 
       - name: Upload dotnet test results
         uses: actions/upload-artifact@v3
