@@ -28,7 +28,7 @@ jobs:
         run: dotnet publish "Person/Person/Person.csproj" -c Release -o publish --no-restore
       
       - name: Test
-        run: dotnet test "Person/PersonTests/PersonTests.csproj" -c Debug --no-build --no-restore
+        run: dotnet test "Person/PersonTests/PersonTests.csproj" --no-restore --verbosity normal
 
       - name: Upload dotnet test results
         uses: actions/upload-artifact@v3
