@@ -11,44 +11,16 @@ jobs:
     name: Autograding
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          fetch-depth: 0
-
-      # TODO build, test and deploy project
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v2
-        with: 
-          dotnet-version: 8.0.x
-      
-      - name: Build
-        run: dotnet restore "Person/Person.sln"
-
-      - name: Publish
-        run: dotnet publish "Person/Person/Person.csproj" -c Release -o publish --no-restore
-      
-      - name: Test
-        run: dotnet test "Person/PersonTests/PersonTests.csproj" --no-restore
-
-      - name: Upload dotnet test results
-        uses: actions/upload-artifact@v3
-        with:
-          name: dotnet-results
-          path: TestResults
-        # Use always() to always run this step to publish test results when there are test failures
-        if: ${{ always() }}
-
-      - name: Timeout
-        run: sleep 20s
-        shell: bash
-        
-      - name: Install Postman CLI
+          python-version: '3.x'
+      - name: Install dependencies
         run: |
-          curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
-      - name: Login to Postman CLI
-        run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
-      - name: Run API tests
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Test with pytest
         run: |
-          postman collection run "34849075-86ec6c54-4350-4b32-bae5-ad9971fc78a1"
-      - name: logout
-        run: postman logout ${{ secrets.POSTMAN_API_KEY }}
+          pip install pytest pytest-cov
+          pytest tests.py 
