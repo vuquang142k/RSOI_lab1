@@ -23,13 +23,8 @@ jobs:
       - name: Install requirements
         run: pip install -r requirements.txt
 
-      - name: Run app
-        run: python app.py
-
       - name: Run tests
-        run: coverage run tests/tests.py
-      - name: Tests report
-        run: coverage report
+        run: pytest tests/tests.py
 
       # TODO build, test and deploy project
 
