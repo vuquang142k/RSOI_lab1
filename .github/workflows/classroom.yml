@@ -24,12 +24,15 @@ jobs:
       #         --header 'authorization: Bearer ${{ secrets.RENDER_API_KEY }}' \
       #         --header 'content-type: application/json'
 
-      - name: Deploy to production
-        uses: vuquang142k/render-deploy-action@v0.0.8
-        with:
-          service_id: ${{ secrets.RENDER_SERVICE_ID }}
-          api_key: ${{ secrets.RENDER_API_KEY }}
-          wait-for-success: true
+      - name: Deploy to Render
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}  # Use your secret Render API Key
+          RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}  # Use your secret Service ID
+        run: |
+          echo "Triggering Render Deployment..."
+          curl -X POST "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys" \
+          -H "Authorization: Bearer $RENDER_API_KEY" \
+          -H "Content-Type: application/json"
 
       
       - name: Run API Tests
