@@ -19,10 +19,10 @@ jobs:
 
       - name: Deploy to Render
         run: |
-          curl --request POST \
-              --url https://api.render.com/v1/services/srv-crvshn9u0jms73dteqi0/deploys \
-              --header 'authorization: Bearer ${{ secrets.RENDER_API_KEY }}' \
-              --header 'content-type: application/json'
+          curl -X POST "https://api.render.com/v1/services/$RENDER_SERVICE_ID/deploys" \
+            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d '{"clearCache": false}'
       
       - name: Run API Tests
         uses: matt-ball/newman-action@master
