@@ -25,7 +25,7 @@ jobs:
       #         --header 'content-type: application/json'
 
       - name: Deploy to production
-        uses: vuquang142k/render-deploy-action@v1.4.4
+        uses: vuquang142k/render-deploy-action@v0.0.8
         with:
           service_id: ${{ secrets.RENDER_SERVICE_ID }}
           api_key: ${{ secrets.RENDER_API_KEY }}
