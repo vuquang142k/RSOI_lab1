@@ -1,0 +1,7 @@
+postgresql://username:password@host:port/database_name
+
+python app.py
+(post trc r moi get)
+
+docker build -t my-app .
+docker run -p 8080:8080 -d my-app
