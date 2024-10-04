@@ -6,5 +6,7 @@ serviceId: srv-crvshn9u0jms73dteqi0
 python app.py
 (post trc r moi get)
 
+pytest ./tests/tests.py
+
 docker build -t my-app .
 docker run -p 8080:8080 -d my-app
