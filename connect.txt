@@ -1,5 +1,7 @@
 postgresql://username:password@host:port/database_name
 
+api_render: rnd_hhaPiKjLFKL49MUliKDk0K25t1AC
+
 python app.py
 (post trc r moi get)
 

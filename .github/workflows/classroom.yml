@@ -17,6 +17,12 @@ jobs:
 
       # TODO build, test and deploy project
 
+      - name: Deploy to Render
+        run: |
+          curl -X POST "https://api.render.com/v1/services/$RENDER_SERVICE_ID/deploys" \
+            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+            -H "Content-Type: application/json"
+      
       - name: Run API Tests
         uses: matt-ball/newman-action@master
         with:
